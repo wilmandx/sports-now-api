@@ -33,7 +33,7 @@ gulp.task('build', ["clean"], function () {
 });
 
 gulp.task('watch', () => {
-    gulp.watch('src/**/*.ts', ['server']);
+    gulp.watch(['src/**/*.ts', '**/*.yaml', '**/*.json'], ['server']);
 });
 
 var server;

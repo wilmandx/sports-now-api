@@ -12,7 +12,7 @@ paths:
     post:
       tags:
       - Authentication
-      summary: todo
+      summary: Transform SAML assertion to JWT token
       consumes:
       - application/xml
       produces:
@@ -24,8 +24,8 @@ paths:
         required: true
         type: string
       responses:
-        200:
-          description: todo
+        303:
+          description: New JWT Token created from the SAML assertion. Redirect to front-end with JWT in query (to confirm)
   /v1/items:
     get:
       tags:
@@ -35,12 +35,469 @@ paths:
       - application/json
       parameters:
       - $ref: '#/parameters/JWT'
+      - $ref: '#/parameters/Limit'
+      - $ref: '#/parameters/Offset'
       responses:
         200:
           type: array
           items: 
             $ref: '#/definitions/Item'
-          description: todo
+          headers:
+              X-Total-Count:
+                type: Integer
+                description: The total number of items in the database 
+    post:
+      tags:
+      - Items
+      summary: Create new item
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: body
+        name: body
+        schema: 
+          $ref: '#/definitions/Item'
+        required: true
+      responses:
+        201:
+          schema: 
+            $ref: '#/definitions/Item'
+  /v1/items/{id}:
+    get:
+      tags:
+      - Items
+      summary: Retrieve one item by id
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/Item'
+    put:
+      tags:
+      - Items
+      summary: Update an item
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: path
+        name: id
+        type: string
+        description: The item's id
+        example: 507f191e810c19729de860ea
+      - in: body
+        name: body
+        schema: 
+          $ref: '#/definitions/Item'
+        required: true
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/Item'
+  /v1/items/{id}/actions:
+    get:
+      tags:
+      - Items
+      summary: Retrieve all actions for this item
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - $ref: '#/parameters/Limit'
+      - $ref: '#/parameters/Offset'
+      responses:
+        200:
+          type: array
+          items: 
+            $ref: '#/definitions/Action'
+          headers:
+              X-Total-Count:
+                type: Integer
+                description: The total number of actions for this item in the database 
+    post:
+      tags:
+      - Items
+      summary: Create new action for this item
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: body
+        name: body
+        schema: 
+          $ref: '#/definitions/Action'
+        required: true
+      responses:
+        201:
+          schema: 
+            $ref: '#/definitions/Action'
+  /v1/claims:
+    get:
+      tags:
+      - Claims
+      summary: Retrieve claims, according to limit and offset
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - $ref: '#/parameters/Limit'
+      - $ref: '#/parameters/Offset'
+      responses:
+        200:
+          type: array
+          items: 
+            $ref: '#/definitions/Claim'
+          headers:
+              X-Total-Count:
+                type: Integer
+                description: The total number of claims in the database 
+    post:
+      tags:
+      - Claims
+      summary: Create a new claim
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: body
+        name: body
+        schema: 
+          $ref: '#/definitions/Claim'
+        required: true
+      responses:
+        201:
+          schema: 
+            $ref: '#/definitions/Claim'
+  /v1/claims/{id}:
+    get:
+      tags:
+      - Claims
+      summary: Retrieve one claim by id
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/Claim'
+    put:
+      tags:
+      - Claims
+      summary: Update a claim
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: path
+        name: id
+        type: string
+        description: The item's id
+        example: 507f191e810c19729de860ea
+      - in: body
+        name: body
+        schema: 
+          $ref: '#/definitions/Claim'
+        required: true
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/Claim'
+  /v1/claims/{id}/actions:
+    get:
+      tags:
+      - Claims
+      summary: Retrieve all actions for this claim
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - $ref: '#/parameters/Limit'
+      - $ref: '#/parameters/Offset'
+      responses:
+        200:
+          type: array
+          items: 
+            $ref: '#/definitions/Action'
+          headers:
+              X-Total-Count:
+                type: Integer
+                description: The total number of actions for this claim in the database 
+    post:
+      tags:
+      - Claims
+      summary: Create new action for this claim
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: body
+        name: body
+        schema: 
+          $ref: '#/definitions/Action'
+        required: true
+      responses:
+        201:
+          schema: 
+            $ref: '#/definitions/Action'
+  /v1/attributes/{type}:
+    get:
+      tags:
+      - Attributes
+      summary: Retrieve all attributes of this type
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - $ref: '#/parameters/Limit'
+      - $ref: '#/parameters/Offset'
+      - in: path
+        name: type
+        description: The type of attributes requested
+        example: color
+      responses:
+        200:
+          type: array
+          items: 
+            $ref: '#/definitions/Attribute'
+          headers:
+              X-Total-Count:
+                type: Integer
+                description: The total number of attributes of this type
+    post:
+      tags:
+      - Attributes
+      summary: Create a new value for this type of attributes
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: path
+        name: type
+        description: The type of attributes to create
+        example: color
+      - in: body
+        name: body
+        schema: 
+          $ref: '#/definitions/Attribute'
+        required: true
+      responses:
+        200:
+          type: array
+          items: 
+            $ref: '#/definitions/Attribute'
+          headers:
+              X-Total-Count:
+                type: Integer
+                description: The total number of attributes of this type
+  /v1/attributes/{type}/{id}:
+    get:
+      tags:
+      - Attributes
+      summary: Retrieve one attribute of this type by its id
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: path
+        name: type
+        description: The type of attribute requested
+        example: color
+      - in: path
+        name: id
+        description: The id of attribute requested
+        example: 507f191e810c19729de860ea
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/Attribute'
+    put:
+      tags:
+      - Attributes
+      summary: Update an attribute
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: path
+        name: type
+        description: The type of attribute to update
+        example: color
+      - in: path
+        name: id
+        description: The id of attribute to update
+        example: 507f191e810c19729de860ea
+      - in: body
+        name: body
+        schema: 
+          $ref: '#/definitions/Attribute'
+        required: true
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/Attribute'
+    delete:
+      tags:
+      - Attributes
+      summary: Delete an attribute
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: path
+        name: type
+        description: The type of attribute to update
+        example: color
+      - in: path
+        name: id
+        description: The id of attribute to update
+        example: 507f191e810c19729de860ea
+      responses:
+        204:
+          description: The attribute has successfully been deleted
+  /v1/configs/{type}:
+    get:
+      tags:
+      - Configs
+      summary: Retrieve all configs of this type
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - $ref: '#/parameters/Limit'
+      - $ref: '#/parameters/Offset'
+      - in: path
+        name: type
+        description: The type of configs requested
+        example: stations
+      responses:
+        200:
+          type: array
+          items: 
+            $ref: '#/definitions/Config'
+          headers:
+              X-Total-Count:
+                type: Integer
+                description: The total number of configs of this type
+    post:
+      tags:
+      - Configs
+      summary: Create a new value for this type of config
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: path
+        name: type
+        description: The type of config to create
+        example: color
+      - in: body
+        name: body
+        schema: 
+          $ref: '#/definitions/Config'
+        required: true
+      responses:
+        200:
+          type: array
+          items: 
+            $ref: '#/definitions/Config'
+          headers:
+              X-Total-Count:
+                type: Integer
+                description: The total number of attributes of this type
+  /v1/configs/{type}/{id}:
+    get:
+      tags:
+      - Configs
+      summary: Retrieve one config of this type by its id
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: path
+        name: type
+        description: The type of config requested
+        example: color
+      - in: path
+        name: id
+        description: The id of config requested
+        example: 507f191e810c19729de860ea
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/Config'
+    put:
+      tags:
+      - Configs
+      summary: Update a config
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: path
+        name: type
+        description: The type of config to update
+        example: color
+      - in: path
+        name: id
+        description: The id of config to update
+        example: 507f191e810c19729de860ea
+      - in: body
+        name: body
+        schema: 
+          $ref: '#/definitions/Config'
+        required: true
+      responses:
+        200:
+          schema: 
+            $ref: '#/definitions/Config'
+    delete:
+      tags:
+      - Configs
+      summary: Delete a config
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      - in: path
+        name: type
+        description: The type of attribute to update
+        example: color
+      - in: path
+        name: id
+        description: The id of attribute to update
+        example: 507f191e810c19729de860ea
+      responses:
+        204:
+          description: The attribute has successfully been deleted
 parameters:
   JWT:
     in: header
@@ -49,13 +506,126 @@ parameters:
     required: true
     type: string
     example: Bearer xxxxx.yyyyy.zzzzz
+  Limit:
+    in: query
+    name: limit
+    description: Number of requested items
+    required: true
+    default: 20
+    example: 20
+    type: integer
+  Offset:
+    in: query
+    name: offset
+    description: Number of skipped items
+    required: true
+    default: 0
+    example: 0
+    type: integer
 definitions:
   ObjectId:
     type: string
-    example: 1234
+    example: 507f191e810c19729de860ea
+    required: false
   Item:
     type: object
+    description: A lost item
     properties:
       _id:
         $ref: '#/definitions/ObjectId'
-    
+      description:
+        type: string
+        description: A description of the item
+      foundAt:
+        $ref: '#/definitions/Config'
+      actions:
+        type: array
+        items:
+          $ref: '#/definitions/Action'
+      attributes:
+        type: array
+        items:
+          $ref: '#/definitions/Attribute'
+  Claim:
+    type: object
+    description: A customer claim
+    properties:
+      _id:
+        $ref: '#/definitions/ObjectId'
+      actions:
+        type: array
+        items:
+          $ref: '#/definitions/Action'
+      attributes:
+        type: array
+        items:
+          $ref: '#/definitions/Attribute'
+      item: 
+        $ref: '#/definitions/Item'
+        required: false
+  Action:
+    type: object
+    description: A lost item
+    properties:
+      _id:
+        $ref: '#/definitions/ObjectId'
+      type: 
+        type: string
+        description: The type of action
+        example: received
+      configs:
+        type: array
+        items: 
+          $ref: '#/definitions/Config'
+  Attribute:
+    type: object
+    description: A lost item or claim's attribute. For example, a color, a brand, a type, etc.
+    properties:
+      _id:
+        $ref: '#/definitions/ObjectId'
+      type:
+        type: string
+        example: color
+        description: The type of attribute
+      value:
+        type: object
+        properties:
+          fr: 
+            type: string
+            example: rouge
+            description: The value of the attribute (in french)
+          en: 
+            type: string
+            example: red
+            description: The value of the attribute (in english)
+  Config:
+    type: object
+    description: A config. For example, a station, a lockbox, etc.
+    properties:
+      _id:
+        $ref: '#/definitions/ObjectId'
+      type:
+        type: string
+        example: station
+        description: The type of config
+      value:
+        type: object
+        properties:
+          fr: 
+            type: string
+            example: Montréal - Gare Centrale
+            description: The value of the config (in french)
+          en: 
+            type: string
+            example: Montreal - Central Station
+            description: The value of the config (in english)
+        metadata:
+          type: object
+  JWTResponse: 
+    type: object
+    properties:
+      token:
+        $ref: '#/definitions/JWT'
+  JWT:  
+    type: string
+    example: xxxxx.yyyyy.zzzzz
