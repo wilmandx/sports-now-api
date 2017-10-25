@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "es2015",
+        "module": "commonjs",
+        "outDir": "dist",        
+        "sourceMap": true,
+        "newLine": "LF",
+        "charset": "utf8",
+        "pretty": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "alwaysStrict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noEmitOnError": true,
+        "skipLibCheck": true
+    },
+    "include": [
+        "src/**/*.ts",
+        "config/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

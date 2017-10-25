@@ -1,0 +1,61 @@
+swagger: "2.0"
+info:
+  description: "Lost & Found API Documentation"
+  version: "1.0.0"
+  title: "Lost & Found API V1"
+host: "localhost:3000"
+basePath: "/api"
+schemes:
+- "http"
+paths:
+  /v1/authentication:
+    post:
+      tags:
+      - Authentication
+      summary: todo
+      consumes:
+      - application/xml
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: SAML Assertion
+        required: true
+        type: string
+      responses:
+        200:
+          description: todo
+  /v1/items:
+    get:
+      tags:
+      - Items
+      summary: Retrieve all items
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/JWT'
+      responses:
+        200:
+          type: array
+          items: 
+            $ref: '#/definitions/Item'
+          description: todo
+parameters:
+  JWT:
+    in: header
+    name: Authorization
+    description: Bearer followed by the JWT
+    required: true
+    type: string
+    example: Bearer xxxxx.yyyyy.zzzzz
+definitions:
+  ObjectId:
+    type: string
+    example: 1234
+  Item:
+    type: object
+    properties:
+      _id:
+        $ref: '#/definitions/ObjectId'
+    

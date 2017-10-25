@@ -1,0 +1,14 @@
+node_modules
+dist
+build
+/.vscode
+/log
+.idea
+.eslintrc.json
+/environment.json
+/*.log
+/config/local.yaml
+/test-*
+/src/test.ts
+
+*.map
