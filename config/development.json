@@ -12,5 +12,9 @@
         "pwd":"",
         "name":"lostandfound",
         "debug" : true
+    },
+    "jwt": {
+        "secretOrKey":"localhost",
+        "expiresIn":5
     }
 }

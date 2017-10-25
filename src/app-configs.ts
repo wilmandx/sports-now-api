@@ -12,6 +12,10 @@ export class Config {
     public static get dbConfig(): IDbConfig {
         return config.get("db") as IDbConfig;
     }
+    
+    public static get jwt(): IJwtConfig {
+        return config.get("jwt") as IJwtConfig;
+    }
 }
 
 interface IServerConfig {
@@ -29,3 +33,9 @@ interface IDbConfig {
     name: string;
     debug: boolean;
 }
+
+interface IJwtConfig {
+    secretOrKey: string;
+    expiresIn: number;
+}
+
