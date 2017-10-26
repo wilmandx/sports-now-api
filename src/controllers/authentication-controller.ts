@@ -5,6 +5,12 @@ import { IAttribute } from '../interfaces/attribute';
 import * as jwt from 'jsonwebtoken'; 
 
 export class AuthenticationController {
+    
+    public getRouter(router: Router): Router {
+        router.post("/", this.login);
+        return router;
+    }
+    
     public async login(req: Request, res: Response, next: NextFunction) {
         // usually this would be a database call:
         //var user = users[_.findIndex(users, { name: name })];
@@ -24,10 +30,4 @@ export class AuthenticationController {
     }
 }
 
-function getRouter(router: Router): Router {
-    let controller = new AuthenticationController();
-    router.post("/", controller.login);
-    return router;
-}
-
-export let authenticationRouter = getRouter(Router());
+export const authenticationController = new AuthenticationController();

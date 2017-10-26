@@ -10,7 +10,7 @@ import * as passportJWT from 'passport-jwt';
 import { swaggerRouter } from './controllers/swagger-controller';
 import { itemsRouter } from './controllers/items-controller';
 import { attributesRouter } from './controllers/attributes-controller';
-import { authenticationRouter } from './controllers/authentication-controller';
+import { authenticationController } from './controllers/authentication-controller';
 import { Config } from './app-configs';
 
 export async function createApp(): Promise<express.Express> {
@@ -25,7 +25,7 @@ export async function createApp(): Promise<express.Express> {
     initPassportJWT();
     app.use(passport.initialize());
 
-    app.use('/api/v1/login', authenticationRouter);
+    app.use('/api/v1/login', authenticationController.getRouter(express.Router()));
     app.use('/api/v1/attributes', passport.authenticate('jwt', { session: false }), attributesRouter);
     app.use('/api/v1/items', itemsRouter);
     app.use('/api-docs', swaggerRouter);
