@@ -39,8 +39,7 @@ function initPassportJWT() {
         let JwtStrategy = passportJWT.Strategy;
         let jwtOptions = {
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: Config.jwt.secretOrKey,
-            expiresIn: Config.jwt.expiresIn 
+            secretOrKey: Config.jwt.secretOrKey
         };
         
         let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {

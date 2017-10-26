@@ -22,7 +22,7 @@ export class AuthenticationController {
         if (user.password === req.body.password) {
             // from now on we'll identify the user by the id and the id is the only personalized value that goes into our token
             let payload = { id: user.id };
-            let token = jwt.sign(payload, Config.jwt.secretOrKey);
+            let token = jwt.sign(payload, Config.jwt.secretOrKey, { expiresIn: Config.jwt.expiresIn });
             res.json({ message: "ok", token: token });
         } else {
             res.status(401).json({ message: "passwords did not match" });
