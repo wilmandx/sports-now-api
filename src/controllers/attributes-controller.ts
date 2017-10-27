@@ -28,7 +28,8 @@ export class AttributesController {
     }
 }
 
-function getRouter(router: Router): Router {
+function getRouter(): Router {
+    let router = Router();
     let controller = new AttributesController();
 
     router.get("/", controller.getAttrubutes);
@@ -39,4 +40,4 @@ function getRouter(router: Router): Router {
     return router;
 }
 
-export let attributesRouter = getRouter(Router());
+export let attributesRouter = getRouter();

@@ -23,6 +23,7 @@ interface IServerConfig {
     host: string;
     port: string;
     swaggerPort: string;
+    baseApiPath: string;
 }
 
 interface IDbConfig {

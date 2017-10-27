@@ -3,7 +3,8 @@
         "scheme":"http",
         "host":"localhost",
         "port":"3000",
-        "swaggerPort": "3000"
+        "swaggerPort": "3000",
+        "baseApiPath" : "api"
     },
     "db": {
         "host":"localhost",

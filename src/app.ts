@@ -25,10 +25,14 @@ export async function createApp(): Promise<express.Express> {
     initPassportJWT();
     app.use(passport.initialize());
 
-    app.use('/api/v1/login', authenticationController.getRouter(express.Router()));
-    app.use('/api/v1/attributes', passport.authenticate('jwt', { session: false }), attributesRouter);
-    app.use('/api/v1/items', itemsRouter);
+    app.use('/api-auth/v1/authentication', authenticationController.getRouter());
     app.use('/api-docs', swaggerRouter);
+
+    let baseApi = Config.server.baseApiPath;
+
+    app.use(`/${baseApi}`, passport.authenticate('jwt', { session: false }))
+        .use(`/${baseApi}/v1/attributes`, attributesRouter)
+        .use(`/${baseApi}/v1/items`, itemsRouter);
 
     return app;
 }

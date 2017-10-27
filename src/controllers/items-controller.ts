@@ -21,7 +21,8 @@ export class ItemsController {
     }
 }
 
-function getRouter(router: Router): Router {
+function getRouter(): Router {
+    let router = Router();
     let controller = new ItemsController();
 
     router.get("/", controller.getItems);
@@ -32,4 +33,4 @@ function getRouter(router: Router): Router {
     return router;
 }
 
-export let itemsRouter = getRouter(Router());
+export let itemsRouter = getRouter();

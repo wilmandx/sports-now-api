@@ -6,7 +6,8 @@ import * as jwt from 'jsonwebtoken';
 
 export class AuthenticationController {
     
-    public getRouter(router: Router): Router {
+    public getRouter(): Router {
+        let router = Router();
         router.post("/", this.login);
         return router;
     }
